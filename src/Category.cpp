@@ -1,7 +1,8 @@
 #include <unistd.h>
-#include <Category.h>
-#include "StringUtil.h"
 #include <iostream>
+#include <libgen.h>
+#include <Category.h>
+#include <StringUtil.h>
 
 namespace SimpleLog {
     Category::Category(Appender *appender, Priority::Value priority) : 
@@ -116,7 +117,7 @@ namespace SimpleLog {
 		{ \
             va_list va; \
             va_start(va,stringFormat); \
-            _logUnconditionally3(file, func, line, prio, StringUtil::vformat(stringFormat, va)); \
+            _logUnconditionally3(file, func, line, prio, stringFormat, va); \
             va_end(va); \
         } \
     }while(0)
@@ -154,7 +155,7 @@ namespace SimpleLog {
 										const char* format, 
 										va_list arguments) throw()
 	{
-		LoggingEvent event(std::string(file)+std::string("@")+std::string(func)+std::string("@")+std::to_string(line),
+			LoggingEvent event(std::string(basename(const_cast<char *>(file)))+std::string("@")+std::string(func)+std::string("@")+std::to_string(line),
 							StringUtil::vform(format, arguments),
 							priority);
 		callAppenders(event);
@@ -194,7 +195,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::DEBUG, stringFormat);
     }
 
-    void debug(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::debug(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::DEBUG, stringFormat);
     }
@@ -211,7 +212,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::INFO, stringFormat);
     }
 
-    void info(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::info(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::INFO, stringFormat);
     }
@@ -228,7 +229,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::NOTICE, stringFormat);
     }
 
-    void notice(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::notice(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::NOTICE, stringFormat);
     }
@@ -245,7 +246,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::WARN, stringFormat);
     }
 
-    void warn(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::warn(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::WARN, stringFormat);
     }
@@ -262,7 +263,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::ERROR, stringFormat);
     }
 
-    void error(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::error(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::ERROR, stringFormat);
     }
@@ -279,7 +280,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::CRIT, stringFormat);
     }
 
-    void crit(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::crit(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::CRIT, stringFormat);
     }
@@ -295,7 +296,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::ALERT, stringFormat);
     }
 
-    void alert(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::alert(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::ALERT, stringFormat);
     }
@@ -312,7 +313,7 @@ namespace SimpleLog {
         log_func_tmpl(Priority::EMERG, stringFormat);
     }
 
-    void emerg(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::emerg(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::EMERG, stringFormat);
     }
@@ -329,7 +330,7 @@ namespace SimpleLog {
     	log_func_tmpl(Priority::FATAL, stringFormat);
     }
     
-    void fatal(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
+    void Category::fatal(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
         log_func_tmpl3(file, func, line, Priority::FATAL, stringFormat);
     }
