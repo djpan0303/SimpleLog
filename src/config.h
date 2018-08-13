@@ -1,7 +1,8 @@
 #ifndef _INCLUDE_SIMPLELOG_CONFIG_H
 #define _INCLUDE_SIMPLELOG_CONFIG_H 1
 
-
+#define ASYNC_LOG
+#define MIN_LOG_BUF	10240 
 
 
 

@@ -10,6 +10,7 @@ namespace SimpleLog {
            Constructs a TimeStamp representing 'now'.
         **/
         TimeStamp();
+		TimeStamp &operator=(const TimeStamp &other);
 
         TimeStamp(unsigned long seconds, unsigned long microSeconds = 0);
 

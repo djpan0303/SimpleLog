@@ -142,10 +142,13 @@ namespace SimpleLog {
     void Category::_logUnconditionally2(Priority::Value priority, 
                                         const std::string& message) throw() 
     {
-		//std::shared_ptr<LoggingEvent> event(new LoggingEvent("TODO:FIX Me", message, priority));
+#ifdef ASYNC_LOG
+		std::shared_ptr<LoggingEvent> event(new LoggingEvent(message, priority));
+		_logQueue.push(event);
+#else
 		LoggingEvent event(message, priority);
         callAppenders(event);
-        //queue_push(event);
+#endif
     }
     
 	void Category::_logUnconditionally3(const char *file, 
@@ -155,10 +158,14 @@ namespace SimpleLog {
 										const char* format, 
 										va_list arguments) throw()
 	{
-			LoggingEvent event(std::string(basename(const_cast<char *>(file)))+std::string("@")+std::string(func)+std::string("@")+std::to_string(line),
-							StringUtil::vform(format, arguments),
-							priority);
+		std::string logPoint = std::string(basename(const_cast<char *>(file)))+std::string("@")+std::string(func)+std::string("@")+std::to_string(line);
+#ifdef ASYNC_LOG
+		std::shared_ptr<LoggingEvent> event(new LoggingEvent(logPoint, StringUtil::vform(format, arguments), priority));
+		_logQueue.push(event);
+#else
+		LoggingEvent event(logPoint, StringUtil::vform(format, arguments), priority);
 		callAppenders(event);
+#endif
 	}
 
     void Category::log(Priority::Value priority, 
@@ -240,11 +247,7 @@ namespace SimpleLog {
         if (isPriorityEnabled(Priority::NOTICE))
             _logUnconditionally2(Priority::NOTICE, message);
     }
-    
-    void Category::warn(const char* stringFormat, ...) throw() 
-    { 
-        log_func_tmpl(Priority::WARN, stringFormat);
-    }
+   
 
     void Category::warn(const char *file, const char *func, const int line, const char* stringFormat, ...) throw()
     { 
@@ -341,16 +344,16 @@ namespace SimpleLog {
             _logUnconditionally2(Priority::FATAL, message);
     }
 
-    
-    void Category::queue_push(LoggingEventShrPtr event)
-    {
-
-    }
-#if 0
-    LoggingEventShrPtr Category::queue_pop()
-    {
-
-    }
+#ifdef ASYNC_LOG
+	int Category::svc()
+	{
+		while(true)
+		{
+			LoggingEventShrPtr p = _logQueue.pop();
+			LoggingEvent event(*(p.get()));
+			callAppenders(event);
+		}
+	}
 #endif
 } 
 

@@ -19,4 +19,13 @@ namespace SimpleLog {
         threadName(getThreadId()) 
 	{
     }
+
+	LoggingEvent::LoggingEvent(const LoggingEvent &e)
+	{
+		logPoint = e.logPoint;
+		message = e.message; 
+		priority = e.priority;
+		threadName = e.threadName;
+		timeStamp = e.timeStamp;
+	}
 }

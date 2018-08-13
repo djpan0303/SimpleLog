@@ -15,6 +15,12 @@ namespace SimpleLog {
         _microSeconds = tv.tv_usec;
     }
 
+	TimeStamp &TimeStamp::operator=(const TimeStamp &other)
+	{
+		_seconds = other._seconds;
+		_microSeconds = other._microSeconds;
+	}
+
     TimeStamp::TimeStamp(unsigned long seconds, unsigned long microSeconds) :
         _seconds(seconds),
         _microSeconds(microSeconds) 

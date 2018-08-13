@@ -1,22 +1,28 @@
 #ifndef _SIMPLELOG_CATEGORY_HH
 #define _SIMPLELOG_CATEGORY_HH
 
-#include <Appender.h>
-#include <LoggingEvent.h>
-#include <Priority.h>
 #include <map>
-#include <vector>
 #include <cstdarg>
 #include <stdexcept>
 #include <memory>
-#include <queue>
-
+#include <Appender.h>
+#include <LoggingEvent.h>
+#include <Priority.h>
+#include <OSThread.h>
+#include <TMsgQueue.h>
+#include <config.h>
 
 namespace SimpleLog {
 
 typedef std::map<std::string, Appender*> AppenderMap;
 
-class Category {
+typedef std::shared_ptr<LoggingEvent> LoggingEventShrPtr;
+
+class Category
+#ifdef ASYNC_LOG
+	: public Thread
+#endif
+{
 public: 
 		Category(Appender *appender=NULL, Priority::Value priority = Priority::NOTSET);
         ~Category();
@@ -102,9 +108,6 @@ public:
         
 
 	private: 
-		typedef std::shared_ptr<LoggingEvent> LoggingEventShrPtr;
-		void queue_push(LoggingEventShrPtr event);
-		//LoggingEventShrPtr queue_pop();
 		bool isPriorityEnabled(Priority::Value prio);
         void _logUnconditionally(Priority::Value priority, 
                                          const char* format, 
@@ -123,7 +126,10 @@ public:
         volatile Priority::Value _priority;
         AppenderMap _appenderMap;
         Mutex	_appenderMapMutex;
-		std::queue<std::string> _queue;
+#ifdef ASYNC_LOG
+		TMsgQueue<LoggingEventShrPtr> _logQueue;
+		virtual int svc();
+#endif
     };
 
 }

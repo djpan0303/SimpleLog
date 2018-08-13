@@ -11,14 +11,13 @@ namespace SimpleLog {
     public:
         LoggingEvent(const std::string& logPoint, const std::string& message, Priority::Value priority);
         LoggingEvent(const std::string& message, Priority::Value priority);
-
-        const std::string logPoint;
-        const std::string message;
+		LoggingEvent(const LoggingEvent &);
+        std::string logPoint;
+        std::string message;
         Priority::Value priority;
-        const std::string threadName;
+        std::string threadName;
         TimeStamp timeStamp;
     };
 }
 
 #endif // _SIMPLELOG_LOGGINGEVENT_HH
-

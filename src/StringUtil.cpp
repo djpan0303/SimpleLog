@@ -3,12 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <config.h>
 
 namespace SimpleLog {
 
     std::string StringUtil::vform(const char* format, va_list args) 
 	{
-        size_t size = 1024;
+        size_t size = MIN_LOG_BUF;
         char* buffer = new char[size];
             
         while (1) 
