@@ -10,13 +10,13 @@ namespace SimpleLog {
     {
 		if(appender != NULL)
 		{
-			addAppender(appender);
+			_appenderStore.addAppender(appender);
 		}
     }
 
     Category::~Category() 
     {
-        removeAllAppenders();
+        _appenderStore.removeAllAppenders();
     }
 
 
@@ -32,16 +32,18 @@ namespace SimpleLog {
         
     }
 
-	void Category::setAppenderPriority(std::string &appenderName, Priority::Value priority)
+	bool Category::addAppender(Appender* appender)
 	{
-		
-		AppenderMap::iterator i = _appenderMap.find(appenderName);
-		 if (i != _appenderMap.end()) 
-		 {
-			// TODO:set priority field in appeder
-		 }
+		return _appenderStore.addAppender(appender);	
+	}
 
-
+	void Category::removeAppender(Appender* appender)
+	{
+		 _appenderStore.removeAppender(appender);
+	}
+	void Category::removeAllAppenders()
+	{
+		 _appenderStore.removeAllAppenders();
 	}
 
     Priority::Value Category::getPriority() 
@@ -49,63 +51,6 @@ namespace SimpleLog {
     	return _priority;
     }
 
-    bool Category::addAppender(Appender* appender) 
-    {
-        if (appender == NULL)
-        {
-			throw std::invalid_argument("NULL appender");
-			return false;
-        }
-
-        //ScopedLock lock(_appenderSetMutex);
-    	std::string name = appender->getName();
-        AppenderMap::iterator i = _appenderMap.find(name);
-        if (i == _appenderMap.end()) 
-        {
-            _appenderMap[name] = appender;
-            return true;
-        }
-        else
-        {
-        	//TODO: throw exception
-			return false;
-        }    
-
-    }
-    
-    void Category::removeAllAppenders() 
-    {
-        //ScopedLock lock(_appenderSetMutex);
-        for (AppenderMap::iterator it = _appenderMap.begin();
-             it != _appenderMap.end(); it++) 
-       	{
-            delete it->second;
-        }
-        _appenderMap.clear();           
-
-    }
-
-    void Category::removeAppender(Appender* appender) 
-    {
-        //ScopedLock lock(_appenderMapMutex);
-		std::string name = appender->getName();
-		AppenderMap::iterator it = _appenderMap.find(name);
-		if (it != _appenderMap.end()) 
-		{
-			_appenderMap.erase(it);
-		}
-
-	}
-
-    void Category::callAppenders(const LoggingEvent& event) throw() 
-    {
-        //ScopedLock lock(_appenderMapMutex);
-        for(AppenderMap::const_iterator it = _appenderMap.begin();
-            it != _appenderMap.end(); it++) 
-       	{
-            (it->second)->doAppend(event);
-        }
-    }
 
     bool Category::isPriorityEnabled(Priority::Value prio)
     {
@@ -147,7 +92,7 @@ namespace SimpleLog {
 		_logQueue.push(event);
 #else
 		LoggingEvent event(message, priority);
-        callAppenders(event);
+        _appenderStore.callAppenders(event);
 #endif
     }
     
@@ -164,7 +109,7 @@ namespace SimpleLog {
 		_logQueue.push(event);
 #else
 		LoggingEvent event(logPoint, StringUtil::vform(format, arguments), priority);
-		callAppenders(event);
+		_appenderStore.callAppenders(event);
 #endif
 	}
 
@@ -351,8 +296,9 @@ namespace SimpleLog {
 		{
 			LoggingEventShrPtr p = _logQueue.pop();
 			LoggingEvent event(*(p.get()));
-			callAppenders(event);
+			_appenderStore.callAppenders(event);
 		}
+		return 0;
 	}
 #endif
 } 

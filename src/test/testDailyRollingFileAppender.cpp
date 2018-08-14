@@ -18,8 +18,7 @@ using namespace std;
 static const char* const test_message = "message";
 static const char* const daily_file_prefix = "dailyrolling_file.log";
 static const char* const nestedDir = "nesteddir";
-#define PATHDELIMITER "/" 
-const char* const nesteddirname = "nesteddir"PATHDELIMITER;
+const char* const nesteddirname = "nesteddir/";
 
 
 class DailyRollingTest {

@@ -11,10 +11,10 @@
 #include <OSThread.h>
 #include <TMsgQueue.h>
 #include <config.h>
+#include <AppenderStore.h>
 
 namespace SimpleLog {
 
-typedef std::map<std::string, Appender*> AppenderMap;
 
 typedef std::shared_ptr<LoggingEvent> LoggingEventShrPtr;
 
@@ -27,13 +27,11 @@ public:
 		Category(Appender *appender=NULL, Priority::Value priority = Priority::NOTSET);
         ~Category();
         void setPriority(Priority::Value priority);
-        void setAppenderPriority(std::string &appenderName, Priority::Value priority);
         Priority::Value getPriority();
-        bool addAppender(Appender* appender);
-        void removeAppender(Appender* appender);
-        void callAppenders(const LoggingEvent& event) throw();
-		void removeAllAppenders();
 
+		bool addAppender(Appender* appender);
+		void removeAppender(Appender* appender);
+		void removeAllAppenders();
 
         void log(Priority::Value priority, const char* stringFormat, ...) throw();
         void log(Priority::Value priority, const std::string& message) throw();
@@ -124,8 +122,7 @@ public:
 									 			va_list arguments) throw();
 
         volatile Priority::Value _priority;
-        AppenderMap _appenderMap;
-        Mutex	_appenderMapMutex;
+		AppenderStore _appenderStore;
 #ifdef ASYNC_LOG
 		TMsgQueue<LoggingEventShrPtr> _logQueue;
 		virtual int svc();

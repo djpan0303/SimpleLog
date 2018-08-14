@@ -19,6 +19,7 @@ namespace SimpleLog {
 	{
 		_seconds = other._seconds;
 		_microSeconds = other._microSeconds;
+		return *this;
 	}
 
     TimeStamp::TimeStamp(unsigned long seconds, unsigned long microSeconds) :
