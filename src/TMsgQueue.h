@@ -37,7 +37,10 @@ public:
 
     int size()
     {
-      return _queue.size();
+    	pthread_mutex_lock(&_mutex);
+      	int size = _queue.size();
+      	pthread_mutex_unlock(&_mutex);
+      	return size;
     }
 
     T pop()

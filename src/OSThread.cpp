@@ -143,7 +143,7 @@ int Thread::run(void **ret)
 		}
 		else
 		{
-			printf("--- pthread_create(thr:%u) success ---\n", (unsigned int)thread);
+			printf("--- pthread_create(thr:%lx) success ---\n", thread);
 		}
 
 		_threads.push_back(thread);

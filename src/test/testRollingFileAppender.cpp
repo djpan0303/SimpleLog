@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <unistd.h>
 #include <iostream>
 #include <Category.h>
 #include <RollingFileAppender.h>
@@ -82,8 +83,9 @@ int main()
    cat.debug("test5555555555555");
    cat.debug("test6666666666666");
    cat.debug("test7");
-   
-
+   #ifdef ASYNC_LOG
+   usleep(800000);
+   #endif
    if (check_log_files())
       return 0;
    else 

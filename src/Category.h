@@ -8,7 +8,6 @@
 #include <Appender.h>
 #include <LoggingEvent.h>
 #include <Priority.h>
-#include <OSThread.h>
 #include <TMsgQueue.h>
 #include <config.h>
 #include <AppenderStore.h>
@@ -19,13 +18,12 @@ namespace SimpleLog {
 typedef std::shared_ptr<LoggingEvent> LoggingEventShrPtr;
 
 class Category
-#ifdef ASYNC_LOG
-	: public Thread
-#endif
 {
 public: 
 		Category(Appender *appender=NULL, Priority::Value priority = Priority::NOTSET);
         ~Category();
+
+        void shutdown();
         void setPriority(Priority::Value priority);
         Priority::Value getPriority();
 
@@ -104,7 +102,7 @@ public:
             return isPriorityEnabled(Priority::FATAL);
         };
         
-
+		void svc();
 	private: 
 		bool isPriorityEnabled(Priority::Value prio);
         void _logUnconditionally(Priority::Value priority, 
@@ -124,8 +122,7 @@ public:
         volatile Priority::Value _priority;
 		AppenderStore _appenderStore;
 #ifdef ASYNC_LOG
-		TMsgQueue<LoggingEventShrPtr> _logQueue;
-		virtual int svc();
+		TMsgQueue<LoggingEventShrPtr> _logQueue;		
 #endif
     };
 

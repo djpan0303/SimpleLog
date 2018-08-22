@@ -28,7 +28,6 @@ namespace SimpleLog {
 
     void OstreamAppender::close() 
 	{
-        // empty
     }
 
     void OstreamAppender::_append(const LoggingEvent& event) 

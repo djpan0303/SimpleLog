@@ -5,6 +5,19 @@
 #include <StringUtil.h>
 
 namespace SimpleLog {
+	void* thread_proc(void* arg)
+	{
+		Category* thread = reinterpret_cast<Category*>(arg);
+		
+		while(true)
+		{
+			thread->svc();	
+		}
+	
+		return NULL;
+	}
+
+
     Category::Category(Appender *appender, Priority::Value priority) : 
 		_priority(priority)
     {
@@ -12,13 +25,27 @@ namespace SimpleLog {
 		{
 			_appenderStore.addAppender(appender);
 		}
+		
+		#ifdef ASYNC_LOG
+		pthread_t thread;
+		int ret = pthread_create(&thread , NULL, thread_proc, this);
+		if(ret != 0)
+		{
+			//throw 
+		}
+		#endif
     }
 
     Category::~Category() 
     {
         _appenderStore.removeAllAppenders();
+        shutdown();
     }
 
+
+	void Category::shutdown()
+	{
+	}
 
     void Category::setPriority(Priority::Value priority) 
     {
@@ -43,6 +70,12 @@ namespace SimpleLog {
 	}
 	void Category::removeAllAppenders()
 	{
+		#ifdef ASYNC_LOG
+		while(_logQueue.size() > 0)
+		{
+			usleep(300000);
+		}
+		#endif
 		 _appenderStore.removeAllAppenders();
 	}
 
@@ -289,17 +322,16 @@ namespace SimpleLog {
             _logUnconditionally2(Priority::FATAL, message);
     }
 
-#ifdef ASYNC_LOG
-	int Category::svc()
+
+	void Category::svc()
 	{
-		while(true)
-		{
-			LoggingEventShrPtr p = _logQueue.pop();
-			LoggingEvent event(*(p.get()));
-			_appenderStore.callAppenders(event);
-		}
-		return 0;
-	}
+#ifdef ASYNC_LOG
+
+		LoggingEventShrPtr p = _logQueue.pop();
+		LoggingEvent event(*(p.get()));
+		_appenderStore.callAppenders(event);
 #endif
+	}
+
 } 
 

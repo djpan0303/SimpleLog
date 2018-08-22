@@ -89,7 +89,8 @@ public:
 	}
 };
 
-int testOnlyDailyRollingFileAppender() {
+int testOnlyDailyRollingFileAppender() 
+{
 	DailyRollingTest dailyTest;
 	   if (!dailyTest.setup())
 	   {
@@ -98,6 +99,10 @@ int testOnlyDailyRollingFileAppender() {
 	   }
 
 	   dailyTest.make_log_files();
+
+	#ifdef ASYNC_LOG
+		   sleep(2);
+	#endif
 
 	   if (dailyTest.check_log_files())
 	      return 0;
@@ -108,5 +113,6 @@ int testOnlyDailyRollingFileAppender() {
 int main()
 {
 	int res = testOnlyDailyRollingFileAppender();
+	
 	return res;
 }

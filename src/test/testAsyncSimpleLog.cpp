@@ -11,17 +11,16 @@ class TestThread : public Thread {
 public:
 	int svc()
 	{
-		SL_LOG_INFO(logger, "thread test.should see theadId:%ld", thread_id());
+		SL_LOG_INFO(logger, "thread test.should see theadId:0x%lx", thread_id());
 		return 0;
 	}
 }; 
 
 int main()
 {
+#ifdef ASYNC_LOG
 	Appender *appender = new FileAppender("fileappender", "AsyncSimpleLog-test.log", new BasicLayout(), false);
 	logger.addAppender(appender);
-	logger.init();
-	logger.run();
 
 	SL_LOG_INFO(logger, "hello, %s", "world");
 	SL_LOG_INFO(logger, "hello, john");
@@ -30,6 +29,7 @@ int main()
 	t.init();
 	t.run();
 	t.stop();
-	sleep(2);
-	logger.stop();
+	sleep(1);
+	logger.shutdown();
+#endif
 }
