@@ -14,7 +14,7 @@
 #include <LoggingEvent.h>
 
 
-namespace SimpleLog { 
+namespace SLog { 
     class Appender {
     protected:
         Appender(const std::string& name);

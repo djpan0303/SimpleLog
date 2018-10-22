@@ -1,6 +1,6 @@
 #include <AppenderStore.h>
 
-namespace SimpleLog {
+namespace SLog {
     bool AppenderStore::addAppender(Appender* appender) 
     {
         if (appender == NULL)

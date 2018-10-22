@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #include <config.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     std::string StringUtil::vform(const char* format, va_list args) 
 	{

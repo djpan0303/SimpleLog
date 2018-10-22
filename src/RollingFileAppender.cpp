@@ -8,9 +8,9 @@
 #include <sstream>
 #include <iomanip>
 #include <RollingFileAppender.h>
-#include <Category.h>
+#include <SimpleLog.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     RollingFileAppender::RollingFileAppender(const std::string& name,
                                              const std::string& fileName, 

@@ -3,10 +3,10 @@
 #include <errno.h>
 #include <unistd.h>
 #include <iostream>
-#include <Category.h>
+#include <SimpleLog.h>
 #include <RollingFileAppender.h>
 
-using namespace SimpleLog;
+using namespace SLog;
 using namespace std;
 static const char* const test_message = "message";
 
@@ -32,7 +32,7 @@ bool remove_files()
    return true;
 }
 
-bool setup(Category& root)
+bool setup(SimpleLog& root)
 {
    if (!remove_files())
       return false;
@@ -69,7 +69,7 @@ bool check_log_files()
 
 int main()
 {
-    Category cat;
+    SimpleLog cat;
    if (!setup(cat))
    {
       cout << "Setup has failed. Check for permissions on files 'rolling_file.log*'.\n";
@@ -83,9 +83,7 @@ int main()
    cat.debug("test5555555555555");
    cat.debug("test6666666666666");
    cat.debug("test7");
-   #ifdef ASYNC_LOG
-   usleep(800000);
-   #endif
+
    if (check_log_files())
       return 0;
    else 

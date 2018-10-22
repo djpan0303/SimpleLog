@@ -4,7 +4,7 @@
 #include <string>
 #include <stdexcept>
 
-namespace SimpleLog {
+namespace SLog {
     class ConfigureFailure : public std::runtime_error {
         public:
         ConfigureFailure(const std::string& reason);

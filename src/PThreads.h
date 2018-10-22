@@ -7,7 +7,7 @@
 #include <assert.h>
 
 
-namespace SimpleLog {
+namespace SLog {
         /** 
          * returns the thread IDs
          **/

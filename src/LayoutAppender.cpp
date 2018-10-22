@@ -1,6 +1,6 @@
 #include <LayoutAppender.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     LayoutAppender::LayoutAppender(const std::string& name) : 
             AppenderSkeleton(name),

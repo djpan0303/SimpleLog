@@ -1,6 +1,6 @@
 #include <LoggingEvent.h>
 
-namespace SimpleLog {
+namespace SLog {
     
     LoggingEvent::LoggingEvent(const std::string& logPoint_, 
                                const std::string& message_,

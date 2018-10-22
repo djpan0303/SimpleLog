@@ -5,7 +5,7 @@
 #include <string>
 #include <stdarg.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     class FileAppender : public LayoutAppender {
         public:

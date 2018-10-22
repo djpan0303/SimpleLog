@@ -11,9 +11,9 @@
 #include <iomanip>
 #include <dirent.h>
 #include <DailyRollingFileAppender.h>
-#include <Category.h>
+#include <SimpleLog.h>
 
-namespace SimpleLog {
+namespace SLog {
 
 	unsigned int DailyRollingFileAppender::maxDaysToKeepDefault = 30;
 
@@ -137,7 +137,7 @@ namespace SimpleLog {
 		free(entries);
 	}
 
-	void DailyRollingFileAppender::_append(const SimpleLog::LoggingEvent &event)
+	void DailyRollingFileAppender::_append(const LoggingEvent &event)
 	{
 		struct tm now;
 		time_t t = time(NULL);
@@ -154,6 +154,6 @@ namespace SimpleLog {
 				_logsTime = now;
 			}
 		}
-		SimpleLog::FileAppender::_append(event);
+		FileAppender::_append(event);
 	}
 }

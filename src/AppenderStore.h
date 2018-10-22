@@ -3,7 +3,7 @@
 #include <Appender.h>
 #include <PThreads.h>
 #include <map>
-namespace SimpleLog {
+namespace SLog {
 
 typedef std::map<std::string, Appender*> AppenderMap;
 

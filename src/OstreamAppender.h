@@ -5,7 +5,7 @@
 #include <iostream>
 #include <LayoutAppender.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     /**
      * OstreamAppender appends LoggingEvents to ostreams.

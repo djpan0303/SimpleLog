@@ -1,20 +1,19 @@
 #include <SimpleLog.h>
 #include <FileAppender.h>
 #include <BasicLayout.h>
-#include <OSThread.h>
 #include <unistd.h>
+#include <pthread.h>
 
-using namespace SimpleLog;
-Category logger;
+using namespace SLog;
+SimpleLog logger;
 
-class TestThread : public Thread {
-public:
-	int svc()
-	{
-		SL_LOG_INFO(logger, "thread test.should see theadId:0x%lx", thread_id());
-		return 0;
-	}
-}; 
+
+void *svc(void *arg)
+{
+	SL_LOG_INFO(logger, "thread test.should see theadId:0x%lx", pthread_self());
+	return 0;
+}
+
 
 int main()
 {
@@ -25,10 +24,10 @@ int main()
 	SL_LOG_INFO(logger, "hello, %s", "world");
 	SL_LOG_INFO(logger, "hello, john");
 
-	TestThread t;
-	t.init();
-	t.run();
-	t.stop();
+	pthread_t pid;
+	pthread_create(&pid, NULL, svc, NULL);
+	pthread_join(pid, NULL);
+	
 	sleep(1);
 	logger.shutdown();
 #endif

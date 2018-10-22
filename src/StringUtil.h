@@ -6,7 +6,7 @@
 #include <climits>
 #include <stdarg.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     class StringUtil {
         public:

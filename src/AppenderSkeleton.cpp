@@ -9,7 +9,7 @@
 
 #include <AppenderSkeleton.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     AppenderSkeleton::AppenderSkeleton(const std::string& name) :
         Appender(name),

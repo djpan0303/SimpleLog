@@ -4,7 +4,7 @@
 #include <string>
 #include <stdarg.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     /**
        DailyRollingFileAppender is a FileAppender that rolls over the logfile once

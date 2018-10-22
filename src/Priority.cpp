@@ -10,7 +10,7 @@
 #include <Priority.h>
 #include <cstdlib>
 
-namespace SimpleLog {
+namespace SLog {
 
     namespace {
 	const std::string *names() {
@@ -30,7 +30,7 @@ namespace SimpleLog {
 	}
     }    
 
-    const int SimpleLog::Priority::MESSAGE_SIZE = 8;
+    const int Priority::MESSAGE_SIZE = 8;
     
 
     const std::string& Priority::getPriorityName(int priority) throw() {

@@ -4,7 +4,7 @@
 #include <LoggingEvent.h>
 #include <string>
 
-namespace SimpleLog {
+namespace SLog {
 
 /**
  * Extend this abstract class to create your own log layout format.

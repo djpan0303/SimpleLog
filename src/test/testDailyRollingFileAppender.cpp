@@ -10,10 +10,10 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <DailyRollingFileAppender.h>
-#include <Category.h>
+#include <SimpleLog.h>
 #include <OstreamAppender.h>
 
-using namespace SimpleLog;
+using namespace SLog;
 using namespace std;
 static const char* const test_message = "message";
 static const char* const daily_file_prefix = "dailyrolling_file.log";
@@ -23,7 +23,7 @@ const char* const nesteddirname = "nesteddir/";
 
 class DailyRollingTest {
 	DailyRollingFileAppender* dailyApp, *nestedDirDailyApp;
-    Category root;
+    SimpleLog root;
 public:
 	bool remove_impl(const char* filename)
 	{

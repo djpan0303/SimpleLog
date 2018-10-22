@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <time.h>
 #include <FileAppender.h>
-#include <Category.h>
+#include <SimpleLog.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     FileAppender::FileAppender(const std::string& name, 
                                const std::string& fileName,

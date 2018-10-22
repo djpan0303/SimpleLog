@@ -6,7 +6,7 @@
 #include <TimeStamp.h>
 #include <PThreads.h>
 
-namespace SimpleLog {
+namespace SLog {
     struct LoggingEvent {
     public:
         LoggingEvent(const std::string& logPoint, const std::string& message, Priority::Value priority);

@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <iostream>
 #include <unistd.h>
-#include <Category.h>
+#include <SimpleLog.h>
 #include <Appender.h>
 #include <OstreamAppender.h>
 #include <Priority.h>
 
-using namespace SimpleLog;
+using namespace SLog;
 
-void testLogva(Category& category, Priority::Value priority, const char* stringFormat, ...)
+void testLogva(SimpleLog& category, Priority::Value priority, const char* stringFormat, ...)
 {
     va_list va;
     va_start(va, stringFormat);
@@ -17,7 +17,7 @@ void testLogva(Category& category, Priority::Value priority, const char* stringF
 } /* end testLogva */
 
 
-void testMultiAppenders(Category& root)
+void testMultiAppenders(SimpleLog& root)
 {
     Appender* appender = new OstreamAppender("appender", &std::cout);
     Appender* appender2 = new OstreamAppender("appender2", &std::cout);
@@ -59,12 +59,12 @@ void testMultiAppenders(Category& root)
     root.removeAppender(appender2);
 } /* end testMultiAppenders() */
 
-void testSingleAppender(Category& root)
+void testSingleAppender(SimpleLog& root)
 {
     Appender* appender = new OstreamAppender("appender", &std::cout);    
 	root.addAppender(appender);
     root.info("you should see me");
- #ifdef ASYNC_LOG
+#ifdef ASYNC_LOG
 		usleep(500000);
 #endif
     root.removeAppender(appender);
@@ -73,18 +73,15 @@ void testSingleAppender(Category& root)
 
 int main(int argc, char** argv) 
 {    
-    Category root;
+    SimpleLog root;
+#ifndef ASYNC_LOG
     testSingleAppender(root);
     testMultiAppenders(root);
+#endif
 	root.removeAllAppenders();
 	root.addAppender(new OstreamAppender("appender", &std::cout));
     char lengthy1[] = "Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. Test for variable-arguments lists overflow. ";
     testLogva(root, Priority::ERROR, "This contains really lengthy strings which should be logged well (%d bytes): %s", sizeof(lengthy1), lengthy1);
-
-
-#ifdef ASYNC_LOG
-    usleep(500000);
-#endif
 
     return 0;
 }

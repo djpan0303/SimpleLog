@@ -12,7 +12,7 @@
 
 #include <Layout.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     /**
      * BasicLayout is a simple fixed format Layout implementation. 

@@ -2,7 +2,7 @@
 #define _SIMPLELOG_APPENDERSKELETON_HH
 #include <Appender.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     /**
      * AppenderSkeleton is a helper class, simplifying implementation of

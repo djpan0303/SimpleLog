@@ -21,6 +21,7 @@ add_executable(testFileAppender test/testFileAppender.cpp)
 add_executable(testDailyRollingFileAppender test/testDailyRollingFileAppender.cpp)
 add_executable(testRollingFileAppender test/testRollingFileAppender.cpp)
 add_executable(testTimeStamp test/testTimeStamp.cpp)
-add_executable(testSimpleLog test/testSimpleLog.cpp)
 #if test AsyncSimpleLog, do uncomment the ASYNC_LOG and make
 add_executable(testAsyncSimpleLog test/testAsyncSimpleLog.cpp)
+add_executable(example test/example.cpp)
+

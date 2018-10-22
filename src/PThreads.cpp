@@ -1,7 +1,7 @@
 #include <PThreads.h>
 #include <cstdlib>
 
-namespace SimpleLog {
+namespace SLog {
         std::string getThreadId() {
             char buffer[4*sizeof(long)];
             int bufsize = sizeof(buffer)/sizeof(buffer[0]);

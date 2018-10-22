@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace SimpleLog {
+namespace SLog {
     class TimeStamp {
         public:
         /**

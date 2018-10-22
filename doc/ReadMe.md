@@ -18,3 +18,15 @@ BasicLayout:日志的级别|时间日期(具体到毫秒)|线程ID(以16进制打印)|文件@函数@行号
 
 # 4 解决的需求
 满足本地console日志输出，本地文件保存，远端UDP推送
+
+# 5 使用方法
+* step 1
+如果使用同步方式写日志，需要修改Config.h
+如果修改日志缓冲区，需要修改Config.h
+如果需要修改日志输出端和格式，需要修改SimpleLogger.h。SimpleLogger.h中定义了默认的全局logger。
+
+* step 2
+#include <SimpleLogger.h>
+
+* step 3
+使用SimpleLogger.h中的LOG_XXX即可

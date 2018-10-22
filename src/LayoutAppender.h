@@ -4,7 +4,7 @@
 #include <string>
 #include <AppenderSkeleton.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     /**
      * LayoutAppender is a common superclass for all Appenders that require

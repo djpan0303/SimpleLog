@@ -7,7 +7,7 @@
 template <typename T> 
 class TMsgQueue {
 private:
-    std::vector<T> _queue;         // 存储消息的队列
+    std::vector<T> _queue;
 
     pthread_mutex_t _mutex;
     pthread_cond_t _cond;

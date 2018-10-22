@@ -3,7 +3,7 @@
 #include <BasicLayout.h>
 #include <Priority.h>
 
-namespace SimpleLog {
+namespace SLog {
 
     BasicLayout::BasicLayout() 
 	{

@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <OstreamAppender.h>
 
-namespace SimpleLog {
+namespace SLog {
  
     OstreamAppender::OstreamAppender(const std::string& name, std::ostream* stream): 
         LayoutAppender(name),

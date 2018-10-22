@@ -3,7 +3,7 @@
 #include <sys/time.h>
 
 
-namespace SimpleLog {
+namespace SLog {
 
     TimeStamp TimeStamp::_startStamp;
 

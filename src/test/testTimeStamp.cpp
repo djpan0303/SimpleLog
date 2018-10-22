@@ -3,6 +3,6 @@
 
 int main()
 {
-	SimpleLog::TimeStamp ts;
+	SLog::TimeStamp ts;
 	std::cout << ts.getFormatTimeStamp() << std::endl;
 }
